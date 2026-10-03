@@ -28,6 +28,7 @@ $('products').innerHTML = PRODUCTS.map(p => `
 $('products').addEventListener('click', e => {
   const id = e.target.dataset.id;
   if (!id) return;
+  $('receipt').textContent = '';
   cart.add(id);
   render();
 });
@@ -41,9 +42,10 @@ $('coupon-form').addEventListener('submit', e => {
 
 // TODO: double clicks? Pay is disabled right after the first click, so we're fine.
 $('pay').addEventListener('click', () => {
-  $('pay').disabled = true;
   const sub = cart.subtotal();
   $('receipt').textContent = 'Paid ' + rupees(sub - coupon.discount(sub)) + '. Thanks!';
+  cart.lines = {};
+  render();
 });
 
 render();
