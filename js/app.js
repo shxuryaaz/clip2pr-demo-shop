@@ -44,6 +44,11 @@ $('pay').addEventListener('click', () => {
   $('pay').disabled = true;
   const sub = cart.subtotal();
   $('receipt').textContent = 'Paid ' + rupees(sub - coupon.discount(sub)) + '. Thanks!';
+  cart.lines = {};
+  coupon.applied = [];
+  $('coupon').value = '';
+  $('coupon-msg').textContent = '';
+  render();
 });
 
 render();
