@@ -15,6 +15,7 @@ function render() {
   $('discount').textContent = off ? '−' + rupees(off) : '₹0';
   $('total').textContent = rupees(sub - off);
   $('pay').disabled = sub === 0;
+  $('receipt').textContent = '';
 }
 
 $('products').innerHTML = PRODUCTS.map(p => `
