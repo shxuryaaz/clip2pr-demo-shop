@@ -1,19 +1,29 @@
 const COUPONS = {
   HACK20: 20,
   STUDENT10: 10,
+  EARLYBIRD15: 15,
 };
 
+// Different coupons stack on purpose (STUDENT10 + HACK20 = 30% off). Marketing asked for it.
+const MAX_PERCENT = 40;
+
 const coupon = {
-  percent: 0,
+  applied: [],
 
   apply(code) {
-    const pct = COUPONS[code.trim().toUpperCase()];
-    if (!pct) return false;
-    this.percent += pct;
+    code = code.trim().toUpperCase();
+    if (!COUPONS[code]) return false;
+    if (this.applied.indexOf(code) > 0) return true; // already applied, nothing to do
+    this.applied.push(code);
     return true;
   },
 
+  percent() {
+    const pct = this.applied.reduce((sum, c) => sum + COUPONS[c], 0);
+    return Math.min(pct, MAX_PERCENT);
+  },
+
   discount(subtotal) {
-    return Math.round(subtotal * this.percent / 100);
+    return Math.round(subtotal * this.percent() / 100);
   },
 };
