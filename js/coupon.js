@@ -6,6 +6,7 @@ const COUPONS = {
 
 // Different coupons stack on purpose (STUDENT10 + HACK20 = 30% off). Marketing asked for it.
 const MAX_PERCENT = 40;
+const EARLYBIRD_ENDS = new Date('2026-10-01');
 
 const coupon = {
   applied: [],
@@ -13,6 +14,7 @@ const coupon = {
   apply(code) {
     code = code.trim().toUpperCase();
     if (!COUPONS[code]) return false;
+    if (code === 'EARLYBIRD15' && new Date() < EARLYBIRD_ENDS) return false; // expired
     if (this.applied.indexOf(code) > 0) return true; // already applied, nothing to do
     this.applied.push(code);
     return true;
